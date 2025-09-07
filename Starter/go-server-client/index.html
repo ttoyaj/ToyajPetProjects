@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Go Server Client Demo</title>
+</head>
+<body>
+    <h1>Send Message to Server</h1>
+    <form id="msgForm">
+        <input type="text" id="msgInput" placeholder="Type a message" required>
+        <button type="submit">Send</button>
+    </form>
+    <p id="response"></p>
+    <script>
+        document.getElementById('msgForm').onsubmit = async function(e) {
+            e.preventDefault();
+            const msg = document.getElementById('msgInput').value;
+            const res = await fetch('/message', {
+                method: 'POST',
+                body: msg
+            });
+            document.getElementById('response').innerText = await res.text();
+        };
+    </script>
+</body>
+</html>
