@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Ping Pong Demo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 100px;
+    }
+    #ping {
+      background-color: green;
+      color: white;
+      font-size: 2rem;
+      padding: 20px 40px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    #pong {
+      background-color: blue;
+      color: white;
+      font-size: 2rem;
+      padding: 20px 40px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 20px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Ping Pong with Go 🚀</h1>
+  <button id="ping" onclick="pingServer()">PING</button>
+  <br>
+  <button id="pong">PONG</button>
+
+  <script>
+    async function pingServer() {
+      let res = await fetch("/ping");
+      let text = await res.text();
+      console.log("Server says:", text);
+
+      // Show PONG button with server response
+      let pongBtn = document.getElementById("pong");
+      pongBtn.innerText = text.trim();  // <<-- update text dynamically
+      pongBtn.style.display = "inline-block";
+
+      // Hide after 2 seconds
+      setTimeout(() => {
+        pongBtn.style.display = "none";
+      }, 2000);
+    }
+  </script>
+</body>
+</html>
