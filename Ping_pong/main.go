@@ -18,7 +18,7 @@ func letReplyToPing() string {
 	now := time.Now().In(ist)
 	hour := now.Hour()
 
-	if hour < 21 {
+	if hour < 19 {
 		return "PONG from Toyaj"
 	} else {
 		return "PONG from Adithi"
@@ -39,6 +39,16 @@ func main() {
 	http.HandleFunc("/ping", func(w http.ResponseWriter, r *http.Request) {
 		reply := letReplyToPing()
 		fmt.Fprintln(w, reply)
+	})
+
+	http.HandleFunc("/getTime", func(w http.ResponseWriter, r *http.Request) {
+		ist, err := time.LoadLocation("Asia/Kolkata")
+		if err != nil {
+			http.Error(w, "Error loading timezone", http.StatusInternalServerError)
+			return
+		}
+		currentTime := time.Now().In(ist).Format("2006-01-02 15:04:05 MST")
+		fmt.Fprintf(w, "Current time (IST): %s", currentTime)
 	})
 
 	fmt.Println("Server running at http://localhost:8080")
